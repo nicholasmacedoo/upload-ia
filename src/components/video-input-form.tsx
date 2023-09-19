@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
-import { FileVideo, Upload } from "lucide-react";
+import { CheckCircle2, FileType, FileVideo, RefreshCw, Upload, UploadCloud } from "lucide-react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
@@ -12,10 +12,22 @@ import { Progress } from "./ui/progress";
 type Status = 'waiting' | 'converting' | 'uploading' | 'generating' | 'success'
 
 const statusMessages = {
-    converting: 'Convertendo...',
-    generating: 'Transcrevendo..',
-    uploading: 'Carregando...',
-    success: 'Sucesso!'
+    converting: {
+        icon: <RefreshCw className="w-4 h-4 ml-2" />,
+        text: 'Convertendo...'
+    },
+    generating: {
+        icon: <FileType className="w-4 h-4 ml-2" />,
+        text: 'Transcrevendo..'
+    },
+    uploading: {
+        icon: <UploadCloud className="w-4 h-4 ml-2" />,
+        text: 'Carregando...'
+    },
+    success: {
+        icon: <CheckCircle2 className="w-4 h-4 ml-2" />,
+        text: 'Sucesso!'
+    },
 }
 
 interface VideoInputFormProps {
@@ -159,7 +171,12 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
                         Carregar vídeo
                         <Upload className="w-4 h-4 ml-2" /> 
                     </>
-                ) : statusMessages[status]}
+                ) : (
+                    <>
+                        {statusMessages[status].text}
+                        {statusMessages[status].icon}
+                    </>
+                )}
             </Button>
         </form>
     )
